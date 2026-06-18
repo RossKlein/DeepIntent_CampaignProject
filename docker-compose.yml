@@ -31,8 +31,8 @@ services:
     depends_on:
       - api
 
-  worker:
-    build: ./worker
+  backend:
+    build: ./backend
     ports:
       - "8000:8000"
     environment:

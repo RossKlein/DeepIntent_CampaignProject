@@ -31,3 +31,32 @@ Total record count is returned in the `total` field of list responses.
 - All monetary values are in USD
 - Dates are ISO 8601 format (YYYY-MM-DD)
 - The API may occasionally return errors — handle them gracefully
+
+## Documented error responses
+
+### 422 Validation Error
+Returned when query parameters are invalid (e.g. `page_size` > 10, `page` < 1).
+FastAPI shape:
+
+```json
+{
+  "detail": [
+    {
+      "loc": ["query", "page_size"],
+      "msg": "ensure this value is less than or equal to 10",
+      "type": "value_error"
+    }
+  ]
+}
+```
+
+**Our handling:** poll job always uses `page_size=10`. A 422 means a bug in our request — do not retry.
+
+### Undocumented transient errors (observed in testing)
+The simulation API also randomly returns **500** with:
+
+```json
+{"error":"internal_server_error","message":"An unexpected error occurred"}
+```
+
+**Our handling:** retry with exponential backoff (includes 500, 429, 502–504). If a page still fails after retries but earlier pages succeeded, sync partial results and try again on the next poll.
