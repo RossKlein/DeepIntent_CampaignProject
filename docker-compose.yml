@@ -1,0 +1,31 @@
+services:
+  api:
+    image: didelta50/4289329224:latest
+    platform: linux/arm64
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+  worker:
+    build: ./worker
+    ports:
+      - "8000:8000"
+    environment:
+      API_URL: ${API_URL}
+      CAMPAIGN_API_KEY: ${CAMPAIGN_API_KEY:-interview-key-2024}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_REPO: ${GITHUB_REPO}
+      POLL_INTERVAL_SECONDS: ${POLL_INTERVAL_SECONDS:-10}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+    depends_on:
+      - api
+    restart: unless-stopped

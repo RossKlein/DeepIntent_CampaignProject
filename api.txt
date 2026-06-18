@@ -1,0 +1,33 @@
+# Campaign API Documentation
+
+Base URL: http://localhost:8080
+Authentication: Pass header `X-API-Key: interview-key-2024` on all requests except /health and /next-day.
+
+## Endpoints
+
+### GET /campaigns
+Returns a paginated list of campaigns.
+
+Query parameters:
+- page (int, default 1)
+- page_size (int, default 10, max 10)
+- status (string, optional): filter by active | paused | completed
+
+### GET /campaigns/{id}
+Returns a single campaign by ID.
+
+### GET /health
+Health check. No auth required.
+
+### POST /next-day
+Advances the simulation by one day. No auth required. No request body.
+Returns current day number and count of campaigns over the 90% spend threshold.
+
+## Pagination
+Use `page` and `page_size` query parameters to paginate through results.
+Total record count is returned in the `total` field of list responses.
+
+## Notes
+- All monetary values are in USD
+- Dates are ISO 8601 format (YYYY-MM-DD)
+- The API may occasionally return errors — handle them gracefully
