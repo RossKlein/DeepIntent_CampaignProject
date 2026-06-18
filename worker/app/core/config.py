@@ -7,6 +7,7 @@ class Settings(BaseSettings):
 
     API_URL: str
     CAMPAIGN_API_KEY: str = "interview-key-2024"
+    DATABASE_URL: str
     GITHUB_TOKEN: str
     GITHUB_REPO: str
     POLL_INTERVAL_SECONDS: int = 10

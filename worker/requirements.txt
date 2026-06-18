@@ -4,3 +4,7 @@ httpx
 apscheduler
 filelock
 pydantic-settings
+sqlalchemy[asyncio]
+asyncpg
+psycopg2-binary
+alembic

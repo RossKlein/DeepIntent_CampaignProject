@@ -32,29 +32,16 @@ Copy `.env.example` to `.env`. Compose injects these into containers.
 | `VITE_API_URL` | Worker URL for the frontend (default `http://localhost:8000`) |
 | `API_URL` | Campaign API URL for worker (default `http://api:8080`) |
 | `CAMPAIGN_API_KEY` | Campaign API key (default `interview-key-2024`) |
+| `DATABASE_URL` | Postgres connection for worker |
 | `POLL_INTERVAL_SECONDS` | Poll interval (default `10`) |
 | `CORS_ORIGINS` | Frontend origin (default `http://localhost:5173`) |
 
-Rebuild the frontend after changing `VITE_API_URL`:
+## Database
+
+Migrations run on worker startup. Reset tables:
 
 ```bash
-docker compose build frontend
+docker compose exec worker /code/scripts/db_reset.sh
 ```
 
-## Demo tips
-
-Advance the simulation (increases campaign spend):
-
-```bash
-curl -X POST http://localhost:8080/next-day
-```
-
-Call five times to push all campaigns past 90% budget. Restart the `api` service to reset.
-
-## Layout
-
-```
-frontend/   React UI
-worker/     FastAPI backend + scheduler
-api.txt     Campaign API notes
-```
+Full Postgres wipe: `docker compose down -v`

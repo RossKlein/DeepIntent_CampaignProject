@@ -16,3 +16,5 @@
 - fastapi server
 
 - file lock ensures only one uvicorn worker runs the poll scheduler when scaled to multiple workers
+
+- postgres stores synced campaign data; alembic runs on worker startup (`alembic upgrade head`)

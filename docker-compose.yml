@@ -5,6 +5,22 @@ services:
     ports:
       - "8080:8080"
 
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-campaign}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-campaign}
+      POSTGRES_DB: ${POSTGRES_DB:-campaigns}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-campaign} -d ${POSTGRES_DB:-campaigns}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   frontend:
     build:
       context: ./frontend
@@ -22,10 +38,17 @@ services:
     environment:
       API_URL: ${API_URL}
       CAMPAIGN_API_KEY: ${CAMPAIGN_API_KEY:-interview-key-2024}
+      DATABASE_URL: ${DATABASE_URL}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_REPO: ${GITHUB_REPO}
       POLL_INTERVAL_SECONDS: ${POLL_INTERVAL_SECONDS:-10}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
     depends_on:
-      - api
+      api:
+        condition: service_started
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
+
+volumes:
+  pgdata:
