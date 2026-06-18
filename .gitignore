@@ -16,6 +16,7 @@ node_modules/
 frontend/dist/
 
 # Jupyter
+*.ipynb
 .ipynb_checkpoints/
 
 # OS / editor
