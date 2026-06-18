@@ -8,7 +8,7 @@ Campaign dashboard (React) and scheduled GitHub issue integration (FastAPI backe
 | Backend | http://localhost:8000 |
 | Campaign API | http://localhost:8080 |
 
-Architecture notes: [DESIGN.md](./DESIGN.md)
+Architecture notes: [design.md](./design.md)
 
 ## Run
 
