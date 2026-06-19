@@ -21,7 +21,11 @@ cp .env.example .env
 docker compose up --build
 ```
 
-I was having a small issue running the ARM api container on my machine. Make sure the api container is running properly!
+Make sure the API server is running. On my machine I had to set up ARM emulation:
+
+```bash
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+```
 
 ## Shutting Down
 
