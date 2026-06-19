@@ -95,7 +95,7 @@ async def create_alerts(session: AsyncSession, campaigns: list[SyncedCampaign]) 
             f"- CTR: {snapshot.ctr:.4f}\n"
             f"- CPM: ${snapshot.cpm:.2f}\n"
         )
-        title = f" {campaign.name} compaign over 90% budget"
+        title = f"{campaign.name} campaign over 90% budget"
 
         try:
             issue_url = await _create_github_issue(title, body)

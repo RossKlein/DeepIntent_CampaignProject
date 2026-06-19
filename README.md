@@ -21,6 +21,8 @@ cp .env.example .env
 docker compose up --build
 ```
 
+I was having a small issue running the ARM api container on my machine. Make sure the api container is running properly!
+
 ## Shutting Down
 
 After stopping the stack, wipe the Postgres volume for a clean slate on the next run:
